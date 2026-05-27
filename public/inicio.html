@@ -158,29 +158,7 @@ nav a:hover{
   margin-bottom:50px;
 }
 
-/* VIDEO */
 
-.video-container{
-  width:100%;
-  max-width:950px;
-  margin:auto;
-  border-radius:32px;
-  overflow:hidden;
-  box-shadow:0 25px 60px rgba(0,0,0,.12);
-  margin-bottom:80px;
-}
-
-.video-box{
-  width:100%;
-  height:520px;
-  background:linear-gradient(135deg,#ddd6fe,#c4b5fd);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:2rem;
-  font-weight:700;
-  color:#5B21B6;
-}
 
 /* INFO */
 
@@ -227,8 +205,20 @@ nav a:hover{
   box-shadow:0 12px 24px rgba(124,58,237,.25);
 }
 
-.start-btn:hover{
-  transform:translateY(-3px);
+.seccion-video{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin:40px auto 50px;
+}
+
+.video-demo{
+  width:520px !important;
+  max-width:90% !important;
+  height:auto !important;
+  display:block !important;
+  border-radius:20px;
+  background:#000;
 }
 
 /* FAQ */
@@ -641,6 +631,8 @@ footer{
 
 }
 
+
+
 </style>
 </head>
 
@@ -703,13 +695,16 @@ footer{
 
     <!-- VIDEO -->
 
-    <div class="video-container">
 
-      <div class="video-box">
-        Video / Demo
-      </div>
-
-    </div>
+<div style="text-align:center; margin:40px auto;">
+  <video 
+    controls 
+    preload="metadata"
+    style="width:520px; max-width:90%; height:auto; border-radius:20px; background:black;">
+    
+    <source src="/video/Flojerometro.mp4" type="video/mp4">
+  </video>
+</div>
 
     <!-- INFO -->
 
