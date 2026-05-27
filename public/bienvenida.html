@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Flojerómetro EPA</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Fuente -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body{
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #efe7ff, #f7f4ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height:100dvh;
+      overflow-y:auto;
+      padding:24px;
+    }
+
+    html, body{
+  min-width:320px;
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+}
+
+    /* Ondas superiores */
+
+    .waves{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.waves svg{
+  display: block;
+  width: 100%;
+  min-width: 1600px;
+  height: 356px;
+}
+
+    /* Card */
+
+    .welcome-card{
+      position: relative;
+      z-index: 5;
+      width: 85%;
+      max-width: 1050px;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 35px;
+      padding: 50px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.08);
+    }
+
+    /* Badge */
+
+    .badge-app{
+      background: #efe5ff;
+      color: #6d3ed1;
+      padding: 12px 22px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    /* Título */
+
+    .main-title{
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #1f1637;
+      margin-bottom: 25px;
+    }
+
+    .main-title span{
+      display: inline-block;
+    }
+
+    /* Texto */
+
+    .description{
+      font-size: 1.4rem;
+      color: #68627a;
+      line-height: 1.8;
+      max-width: 560px;
+      margin-bottom: 40px;
+    }
+
+    /* Botón */
+
+    .btn-start{
+      background: linear-gradient(135deg, #ff9800, #ffb300);
+      color: white;
+      border: none;
+      padding: 18px 42px;
+      border-radius: 60px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      transition: .3s ease;
+      box-shadow: 0 10px 25px rgba(255,152,0,.35);
+    }
+
+    .btn-start:hover{
+      transform: translateY(-4px);
+      background: linear-gradient(135deg, #fb8c00, #ffa000);
+    }
+
+    /* Imagen */
+
+.image-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-image{
+  width: 100%;
+  max-width: 420px;
+  object-fit: contain;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,.12));
+}
+    
+
+    @keyframes float{
+
+      0%{
+        transform: translateY(0px);
+      }
+
+      50%{
+        transform: translateY(-12px);
+      }
+
+      100%{
+        transform: translateY(0px);
+      }
+
+    }
+
+    /* Responsive */
+
+    @media(max-width: 768px){
+
+    body{
+        padding: 20px 0;
+    }
+
+    .welcome-card{
+        width: 92%;
+        padding: 35px 22px;
+        border-radius: 28px;
+    }
+
+    .main-title{
+        font-size: 2rem;
+        line-height: 1.15;
+        text-align: center;
+    }
+
+    .description{
+        font-size: 1.05rem;
+        line-height: 1.7;
+        text-align: center;
+    }
+
+    .badge-app{
+        margin-inline: auto;
+    }
+
+    .btn-start{
+        width: 100%;
+        justify-content: center;
+        font-size: 1.1rem;
+        padding: 16px;
+    }
+
+    .image-container{
+    margin-top: 35px;
+}
+
+    .custom-image{
+    max-width: 250px;
+    }
+
+    .waves svg{
+      height: 267px;
+      min-width: 1200px;
+    }
+     
+
+
+}
+
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Ondas -->
+  <div class="waves">
+
+    <svg viewBox="0 0 1440 320">
+
+      <path fill="#ccb4ff" fill-opacity="1"
+        d="M0,96L48,106.7C96,117,192,139,288,144C384,149,480,139,576,122.7C672,107,768,85,864,90.7C960,96,1056,128,1152,138.7C1248,149,1344,139,1392,133.3L1440,128L1440,0L0,0Z">
+      </path>
+
+      <path fill="#b78cff" fill-opacity=".55"
+        d="M0,32L60,48C120,64,240,96,360,112C480,128,600,128,720,101.3C840,75,960,21,1080,21.3C1200,21,1320,75,1380,101.3L1440,128L1440,0L0,0Z">
+      </path>
+
+    </svg>
+
+  </div>
+
+  <!-- Contenido -->
+
+  <div class="welcome-card">
+
+    <div class="row align-items-center">
+
+      <!-- Texto -->
+
+      <div class="col-lg-6">
+
+        <div class="badge-app">
+          <i class="bi bi-speedometer2"></i>
+          Flojerómetro EPA
+        </div>
+
+        <h1 class="main-title">
+          Descubre qué tan procrastinador eres 👀
+        </h1>
+
+        <p class="description">
+          Responde una serie de reactivos rápidos y conoce más sobre tus hábitos académicos de una forma divertida e interactiva.
+        </p>
+
+       <button
+        class="btn btn-start"
+        onclick="irInicio()"
+        >
+        <i class="bi bi-rocket-takeoff-fill"></i>
+        Comenzar
+        </button>   
+
+      </div>
+
+      <!-- Imagen -->
+
+     
+
+<div class="col-lg-6">
+
+  <div class="image-container">
+
+    <img 
+      src="img/prezoso-durmiendo.png"
+      alt="Prezoso Durmiendo"
+      class="custom-image"
+    >
+
+  </div>
+
+</div>
+
+    </div>
+
+  </div>
+
+    <script>
+
+function irInicio(){
+
+window.location.href=
+"/";
+
+}
+
+</script>
+</body>
+</html>

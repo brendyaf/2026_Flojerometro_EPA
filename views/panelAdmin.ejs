@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Admin - Flojerómetro EPA</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{
+  background:linear-gradient(180deg,#f7f1ff,#efe3ff);
+  color:#241442;
+  overflow-x:hidden;
+  padding:120px 25px 60px;
+}
+
+html, body{
+  min-width:320px;
+  margin:0;
+  overflow-x:hidden;
+}
+
+header{
+  width:100%;
+  height:70px;
+  min-height:78px;
+  padding:0 25px;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,.65);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.3);
+}
+
+.logo{width:120px}
+nav{display:flex;align-items:center;gap:20px}
+nav a{
+  text-decoration:none;
+  color:#4B3B75;
+  font-size:.95rem;
+  font-weight:600;
+}
+nav a:hover{color:#7C3AED}
+
+.admin-link{
+  padding:12px 18px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#8B5CF6,#7C3AED);
+  color:white!important;
+}
+
+.profile-menu{position:relative}
+.profile-btn{
+  border:none;
+  background:white;
+  height:48px;
+  padding:0 18px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  color:#4B3B75;
+  font-weight:600;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:60px;
+  right:0;
+  min-width:220px;
+  background:white;
+  border-radius:22px;
+  padding:12px;
+  display:none;
+  flex-direction:column;
+  gap:6px;
+  box-shadow:0 20px 40px rgba(0,0,0,.1);
+}
+
+.dropdown-menu a{
+  text-decoration:none;
+  color:#4B3B75;
+  font-weight:600;
+  padding:14px 16px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.dropdown-menu a:hover{background:#F3E8FF;color:#7C3AED}
+.logout{color:#DC2626!important}
+.profile-menu.active .dropdown-menu{display:flex}
+
+.dashboard{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+}
+
+.page-title{
+  font-size:3rem;
+  font-weight:900;
+  margin-bottom:35px;
+}
+
+.stats-card,
+.table-card{
+  background:white;
+  border-radius:32px;
+  padding:40px;
+  margin-bottom:35px;
+  box-shadow:0 20px 50px rgba(0,0,0,.06);
+}
+
+.stats-card h3{
+  font-size:1.1rem;
+  color:#6E6783;
+  margin-bottom:10px;
+}
+
+.total-users{
+  font-size:3rem;
+  font-weight:900;
+  color:#7C3AED;
+}
+
+.resultados-grid{
+  margin-top:35px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.resultado-card{
+  background:#F8F5FF;
+  border-radius:24px;
+  padding:24px;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+}
+
+.resultado-card .nombre{
+  font-size:1.1rem;
+  font-weight:800;
+  color:#241442;
+  margin-bottom:4px;
+}
+
+.resultado-card .carrera{
+  font-size:0.85rem;
+  color:#7C3AED;
+  font-weight:600;
+  margin-bottom:12px;
+}
+
+.resultado-card .nivel{
+  display:inline-block;
+  padding:4px 14px;
+  border-radius:999px;
+  font-size:0.8rem;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.resultado-card .nivel.bajo{background:#DCFCE7;color:#15803D}
+.resultado-card .nivel.moderado{background:#FEF3C7;color:#B45309}
+.resultado-card .nivel.alto{background:#FEE2E2;color:#B91C1C}
+
+.resultado-card .detalle{
+  font-size:0.85rem;
+  color:#6E6783;
+  display:flex;
+  justify-content:space-between;
+  padding-top:8px;
+  border-top:1px solid #EDE6FF;
+  margin-top:auto;
+}
+
+.resultado-card .puntaje{
+  font-weight:700;
+  color:#4B3B75;
+}
+
+.resultado-vacio{
+  grid-column:1/-1;
+  text-align:center;
+  color:#9A8FB4;
+  padding:40px;
+  font-size:0.95rem;
+}
+
+.table-top{
+  display:flex;
+  gap:18px;
+  margin-bottom:25px;
+}
+
+/* SEARCH */
+
+.search-box{
+
+  flex:1;
+
+  position:relative;
+
+  height:56px;
+
+}
+
+.search-icon{
+
+  position:absolute;
+
+  left:22px;
+
+  top:50%;
+
+  transform:translateY(-50%);
+
+  color:#9A8FB4;
+
+}
+
+.search-input{
+
+  width:100%;
+
+  height:56px;
+
+  border:none;
+
+  outline:none;
+
+  border-radius:18px;
+
+  background:#F8F5FF;
+
+  padding-left:58px;
+
+  padding-right:60px;
+
+  font-size:1rem;
+
+}
+
+.clear-search{
+
+  position:absolute;
+
+  right:15px;
+
+  top:50%;
+
+  transform:translateY(-50%);
+
+  width:34px;
+
+  height:34px;
+
+  border:none;
+
+  background:none;
+
+  color:#9A8FB4;
+
+  cursor:pointer;
+
+  border-radius:50%;
+
+}
+
+.clear-search:hover{
+
+  background:#ECE6FF;
+
+}
+.add-btn{
+  border:none;
+  padding:0 25px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#8B5CF6,#7C3AED);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.table-container{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+thead{background:#F3E8FF}
+th{
+  padding:18px;
+  text-align:left;
+  color:#5B21B6;
+}
+
+td{
+  padding:18px;
+  border-bottom:1px solid #F1ECFF;
+  color:#4B3B75;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+}
+
+.edit-btn,
+.delete-btn{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+}
+
+.edit-btn{
+  background:#FFE8B5;
+  color:#B7791F;
+}
+
+.delete-btn{
+  background:#FFE2E2;
+  color:#DC2626;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
+  padding:20px;
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-content{
+  width:100%;
+  max-width:500px;
+  background:white;
+  border-radius:28px;
+  padding:35px;
+  box-shadow:0 25px 60px rgba(0,0,0,.18);
+}
+
+.modal-content h2{
+  margin-bottom:22px;
+}
+
+.modal-content label{
+  display:block;
+  margin:14px 0 6px;
+  font-weight:700;
+  color:#4B3B75;
+}
+
+.modal-content input,
+.modal-content select{
+  width:100%;
+  height:50px;
+  border:none;
+  outline:none;
+  border-radius:16px;
+  background:#F8F5FF;
+  padding:0 16px;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:25px;
+}
+
+.cancel-btn,
+.save-btn{
+  border:none;
+  padding:14px 22px;
+  border-radius:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.cancel-btn{
+  background:#EFE7FF;
+  color:#5B21B6;
+}
+
+.save-btn{
+  background:linear-gradient(135deg,#8B5CF6,#7C3AED);
+  color:white;
+}
+
+/* BOTON MENU */
+
+.menu-btn{
+
+display:none;
+
+}
+
+.delete-btn:disabled{
+opacity:.45;
+cursor:not-allowed;
+}
+
+@media(max-width:768px){
+
+body{
+  padding:100px 16px 45px;
+  background:#F4F0FF;
+}
+
+header{
+  height:78px;
+  min-height:78px;
+  padding:0 20px;
+}
+
+.logo{
+  width:105px;
+}
+
+.menu-btn{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:46px;
+  height:46px;
+  border:none;
+  background:white;
+  border-radius:14px;
+  color:#7C3AED;
+  font-size:1.1rem;
+  cursor:pointer;
+}
+
+nav{
+  display:none;
+  position:absolute;
+  top:78px;
+  left:0;
+  width:100%;
+  background:white;
+  flex-direction:column;
+  padding:25px;
+  gap:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+nav.active{
+  display:flex;
+}
+
+nav a{
+  width:100%;
+  text-align:center;
+  padding:10px;
+}
+
+.dashboard{
+  width:100%;
+  max-width:100%;
+}
+
+.page-title{
+  font-size:2rem;
+  line-height:1.2;
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.stats-card,
+.table-card{
+  width:100%;
+}
+
+.stats-card,
+.table-card{
+  padding:24px 18px;
+  border-radius:24px;
+}
+
+.total-users{
+  font-size:2.4rem;
+}
+
+.resultados-grid{
+  grid-template-columns:1fr;
+  gap:16px;
+}
+
+.table-top{
+  flex-direction:column;
+}
+
+.search-box,
+.search-input{
+  height:52px;
+}
+
+.add-btn{
+  width:100%;
+  height:52px;
+}
+
+.table-container{
+  width:100%;
+  overflow-x:auto;
+}
+
+table{
+  min-width:700px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="/img/Logo2.png" class="logo">
+  <button class="menu-btn" onclick="toggleMenu()">
+
+<i class="fa-solid fa-bars"></i>
+
+</button>
+
+  <nav>
+    <a href="/">Inicio</a>
+    <a href="#" id="abrirModalEvaluacion">Evaluación</a>
+    <a href="/resultados.html">Resultados</a>
+    <a href="/panelAdmin.html" class="admin-link">Panel Admin</a>
+
+    <div class="profile-menu">
+      <button class="profile-btn">
+        <i class="fa-solid fa-user"></i>
+        Admin
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+
+      <div class="dropdown-menu">
+        <a href="#"><i class="fa-solid fa-user"></i> Perfil</a>
+        <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<section class="dashboard">
+
+  <h1 class="page-title">Panel de Administración</h1>
+
+  <div class="stats-card">
+    <h3>Participantes registrados</h3>
+    <div class="total-users" id="totalUsuarios">0</div>
+
+    <div class="resultados-grid" id="resultadosGrid"></div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-top">
+      <div class="search-box">
+
+  <i class="fa-solid fa-magnifying-glass search-icon"></i>
+
+  <input
+    type="text"
+    id="buscar"
+    class="search-input"
+    placeholder="Buscar usuario..."
+  >
+
+  <button
+    class="clear-search"
+    onclick="limpiarBusqueda()"
+  >
+
+    <i class="fa-solid fa-xmark"></i>
+
+  </button>
+
+</div>
+
+      <button class="add-btn" onclick="abrirModalAgregar()">
+        <i class="fa-solid fa-plus"></i>
+        Agregar
+      </button>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody id="tablaUsuarios"></tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+<!-- MODAL AGREGAR / EDITAR -->
+<div class="modal" id="modalUsuario">
+  <div class="modal-content">
+
+    <h2 id="modalTitulo" style="text-align: center;">Agregar Usuario</h2>
+
+    <form id="formUsuario">
+
+      <input type="hidden" id="id_usuario">
+
+      <label>Nombre</label>
+      <input type="text" id="nombre" required>
+
+      <label>Apellidos</label>
+      <input type="text" id="apellidos" required>
+
+      <label>Correo</label>
+      <input type="email" id="correo" required>
+
+      <label>Contraseña</label>
+      <input type="password" id="password">
+
+      <label>Rol</label>
+      <select id="rol" required>
+        <option value="">Selecciona un rol</option>
+        <option value="admin">Administrador</option>
+        <option value="usuario">Usuario</option>
+      </select>
+
+      <div class="modal-actions">
+        <button type="button" class="cancel-btn" onclick="cerrarModal()">Cancelar</button>
+        <button type="submit" class="save-btn">Guardar</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script>
+const profileMenu = document.querySelector(".profile-menu");
+const profileBtn = document.querySelector(".profile-btn");
+
+profileBtn.addEventListener("click",()=>{
+  profileMenu.classList.toggle("active");
+});
+
+function toggleMenu(){
+  const nav = document.querySelector("nav");
+  nav.classList.toggle("active");
+}
+
+document.addEventListener("click",(e)=>{
+  if(!profileMenu.contains(e.target)){
+    profileMenu.classList.remove("active");
+  }
+});
+
+let usuarios = [];
+
+const modalUsuario = document.getElementById("modalUsuario");
+const formUsuario = document.getElementById("formUsuario");
+
+async function obtenerUsuarios(){
+  try{
+    const res = await fetch('/usuarios');
+    usuarios = await res.json();
+    renderTabla();
+  }catch(error){
+    console.log("Error al obtener usuarios:", error);
+  }
+}
+
+function renderTabla(){
+  const tabla = document.getElementById("tablaUsuarios");
+  const filtro = document.getElementById("buscar").value.toLowerCase();
+
+  tabla.innerHTML = "";
+
+  const filtrados = usuarios.filter(u =>
+    (u.nombre || "").toLowerCase().includes(filtro) ||
+    (u.apellidos || "").toLowerCase().includes(filtro) ||
+    (u.correo || "").toLowerCase().includes(filtro)
+  );
+
+  filtrados.forEach((u)=>{
+
+const id =
+u.id_usuario;
+
+const esAdmin =
+u.rol === "admin";
+
+tabla.innerHTML += `
+
+<tr>
+
+<td>${u.nombre || ""}</td>
+
+<td>${u.apellidos || ""}</td>
+
+<td>${u.correo || ""}</td>
+
+<td>${u.rol || ""}</td>
+
+<td>
+
+<div class="actions">
+
+<button
+class="edit-btn"
+onclick="abrirModalEditar('${id}')"
+>
+
+<i class="fa-solid fa-pen"></i>
+
+</button>
+
+${
+esAdmin
+
+?
+
+`
+
+<button
+class="delete-btn"
+disabled
+title="No se puede eliminar al administrador"
+>
+
+<i class="fa-solid fa-lock"></i>
+
+</button>
+
+`
+
+:
+
+`
+
+<button
+class="delete-btn"
+onclick="eliminarUsuario('${id}')"
+>
+
+<i class="fa-solid fa-trash"></i>
+
+</button>
+
+`
+
+}
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+});
+
+  document.getElementById("totalUsuarios").innerText = usuarios.length;
+}
+function limpiarBusqueda(){
+
+  document.getElementById("buscar").value="";
+
+  renderTabla();
+
+}
+
+function abrirModalAgregar(){
+  document.getElementById("modalTitulo").innerText = "Agregar Usuario";
+
+  formUsuario.reset();
+
+  document.getElementById("id_usuario").value = "";
+  document.getElementById("password").required = true;
+
+  modalUsuario.classList.add("active");
+}
+
+function abrirModalEditar(id){
+  const usuario = usuarios.find(u => String(u.id_usuario || u._id) === String(id));
+
+  if(!usuario){
+    alert("Usuario no encontrado");
+    return;
+  }
+
+  document.getElementById("modalTitulo").innerText = "Editar Usuario";
+
+  document.getElementById("id_usuario").value = usuario.id_usuario || usuario._id;
+  document.getElementById("nombre").value = usuario.nombre || "";
+  document.getElementById("apellidos").value = usuario.apellidos || "";
+  document.getElementById("correo").value = usuario.correo || "";
+  document.getElementById("rol").value = usuario.rol || "";
+
+  document.getElementById("password").value = "";
+  document.getElementById("password").required = false;
+
+  modalUsuario.classList.add("active");
+}
+
+function cerrarModal(){
+  modalUsuario.classList.remove("active");
+}
+
+formUsuario.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  const id = document.getElementById("id_usuario").value;
+
+  const datos = {
+    nombre: document.getElementById("nombre").value.trim(),
+    apellidos: document.getElementById("apellidos").value.trim(),
+    correo: document.getElementById("correo").value.trim(),
+    rol: document.getElementById("rol").value
+  };
+
+  const password = document.getElementById("password").value.trim();
+
+  if(password){
+    datos.password = password;
+  }
+
+  try{
+    if(id){
+      await fetch(`/usuarios/${id}`,{
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(datos)
+      });
+    }else{
+      await fetch('/usuarios',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(datos)
+      });
+    }
+
+    cerrarModal();
+    obtenerUsuarios();
+
+  }catch(error){
+    console.log("Error al guardar usuario:", error);
+  }
+});
+
+async function eliminarUsuario(id){
+  if(confirm("¿Seguro que deseas eliminar este usuario?")){
+    try{
+      await fetch(`/usuarios/${id}`,{
+        method:'DELETE'
+      });
+
+      obtenerUsuarios();
+
+    }catch(error){
+      console.log("Error al eliminar usuario:", error);
+    }
+  }
+}
+
+document.getElementById("buscar").addEventListener("input",renderTabla);
+
+obtenerUsuarios();
+
+async function cargarUltimosResultados(){
+  try{
+    const res = await fetch('/admin/ultimos-resultados');
+    const datos = await res.json();
+    const grid = document.getElementById('resultadosGrid');
+    grid.innerHTML = '';
+
+    if(!datos.length){
+      grid.innerHTML = '<div class="resultado-vacio">No hay resultados con carrera registrada</div>';
+      return;
+    }
+
+    grid.innerHTML = datos.map(r => `
+      <div class="resultado-card">
+        <div class="nombre">${r.nombre || ''} ${r.apellidos || ''}</div>
+        <div class="carrera">${r.carrera || ''}</div>
+        <div class="nivel ${(r.nivel_procrastinacion || '').toLowerCase()}">${r.nivel_procrastinacion || ''}</div>
+        <div class="detalle">
+          <span>${r.fecha ? new Date(r.fecha).toLocaleDateString('es-MX') : ''}</span>
+          <span class="puntaje">${r.puntaje_total || 0} pts</span>
+        </div>
+      </div>
+    `).join('');
+  }catch(error){
+    console.log('Error al cargar últimos resultados:', error);
+  }
+}
+
+cargarUltimosResultados();
+
+/* MENU CELULAR */
+
+const menuBtn =
+document.querySelector(".menu-btn");
+
+const nav =
+document.querySelector("nav");
+
+menuBtn.addEventListener("click",(e)=>{
+
+e.stopPropagation();
+
+nav.classList.toggle("active");
+
+});
+
+/* CERRAR MENU */
+
+document.addEventListener("click",(e)=>{
+
+if(
+
+window.innerWidth<=768
+&&
+!nav.contains(e.target)
+&&
+!menuBtn.contains(e.target)
+
+){
+
+nav.classList.remove("active");
+
+}
+
+});
+
+/* CERRAR AL CAMBIAR TAMAÑO */
+
+window.addEventListener("resize",()=>{
+
+if(window.innerWidth>768){
+
+nav.classList.remove("active");
+
+}
+
+});
+
+
+
+</script>
+
+</body>
+</html>

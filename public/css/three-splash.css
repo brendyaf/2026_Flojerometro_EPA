@@ -1,0 +1,88 @@
+#threeSplash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #0f0c29, #241442, #2d1b69);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+#threeSplash.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#threeSplash canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#splash-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+}
+
+#splash-title {
+  color: #fff;
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin: 0 0 8px;
+  text-shadow: 0 0 40px rgba(124, 58, 237, 0.4);
+}
+
+#splash-sub {
+  color: rgba(167, 139, 250, 0.7);
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+#splash-skip {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  color: rgba(167, 139, 250, 0.8);
+  padding: 10px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  backdrop-filter: blur(4px);
+}
+
+#splash-skip:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-color: rgba(167, 139, 250, 0.5);
+}
+
+@media (max-width: 768px) {
+  #splash-title {
+    font-size: 2rem;
+    letter-spacing: -1px;
+  }
+  #splash-sub {
+    font-size: 0.85rem;
+  }
+  #splash-skip {
+    bottom: 25px;
+    padding: 8px 20px;
+    font-size: 0.8rem;
+  }
+}

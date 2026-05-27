@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Datos Personales</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter', sans-serif;
+}
+
+html, body{
+    min-width:320px;
+    overflow-x:hidden;
+}
+
+body{
+    background:#fff;
+    min-height:100vh;
+}
+
+/* NAVBAR */
+
+nav{
+    width:100%;
+    height:80px;
+    background:rgba(204,180,255,.85);
+    backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 40px;
+    border-bottom:1px solid rgba(255,255,255,.3);
+}
+
+.logo{
+    width:95px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:30px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#241442;
+    font-size:15px;
+    font-weight:600;
+    transition:color .3s ease, transform .3s ease;
+    display:inline-block;
+}
+
+.nav-links a:hover{
+    color:#7C3AED;
+    transform:translateY(-2px);
+}
+
+#menuBtn{
+    display:none;
+    background:none;
+    border:none;
+    font-size:28px;
+    color:#4B3B75;
+    cursor:pointer;
+}
+
+.profile-btn{
+    width:72px;
+    height:72px;
+    border:none;
+    border-radius:50%;
+    background:transparent;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    transition:.3s;
+    padding:0;
+    margin:0;
+}
+
+.profile-btn:hover{
+    transform:scale(1.05);
+}
+
+.profile-icon{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:translateY(-4px);
+    border-radius:50%;
+}
+
+/* MODALES */
+
+.modal-evaluacion{
+    position:fixed;
+    inset:0;
+    background:rgba(36,20,66,.35);
+    backdrop-filter:blur(8px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:20px;
+}
+
+.modal-evaluacion.active{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+    max-width:430px;
+    background:white;
+    border-radius:32px;
+    padding:38px 32px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 25px 60px rgba(0,0,0,.18);
+    animation:subir .25s ease;
+    max-height:85vh;
+    overflow-y:auto;
+}
+
+.modal-card::-webkit-scrollbar{
+    width:8px;
+}
+
+.modal-card::-webkit-scrollbar-thumb{
+    background:#C9B6F4;
+    border-radius:20px;
+}
+
+@keyframes subir{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.96);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+.modal-close{
+    position:absolute;
+    top:18px;
+    right:18px;
+    border:none;
+    background:#f7f4ff;
+    color:#7C3AED;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:18px;
+    padding:0;
+    margin:0;
+}
+
+.modal-icon{
+    width:82px;
+    height:82px;
+    border-radius:24px;
+    background:linear-gradient(135deg,#8B5CF6,#7C3AED);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 22px;
+    font-size:34px;
+    box-shadow:0 14px 28px rgba(124,58,237,.25);
+}
+
+.modal-card h2{
+    font-size:2rem;
+    font-weight:900;
+    color:#241442;
+    margin-bottom:12px;
+}
+
+.modal-card p{
+    color:#4B3B75;
+    line-height:1.7;
+    margin-bottom:28px;
+}
+
+.modal-botones{
+    display:grid;
+    gap:14px;
+}
+
+.btn-modal{
+    text-decoration:none;
+    padding:15px 22px;
+    border-radius:16px;
+    font-weight:800;
+    transition:.3s;
+    display:block;
+    text-align:center;
+}
+
+.btn-modal.principal{
+    background:linear-gradient(135deg,#8B5CF6,#7C3AED);
+    color:white;
+    box-shadow:0 12px 24px rgba(124,58,237,.25);
+}
+
+.btn-modal.secundario{
+    background:#f7f4ff;
+    color:#6D28D9;
+}
+
+.btn-modal:hover{
+    transform:translateY(-3px);
+}
+
+.historial-modal{
+    display:grid;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.historial-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px;
+    border-radius:18px;
+    background:#f7f4ff;
+    font-weight:700;
+    color:#4B3B75;
+}
+
+.historial-item strong{
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:.85rem;
+}
+
+.bajo{
+    background:#DCFCE7;
+    color:#15803D;
+}
+
+.moderado{
+    background:#FEF3C7;
+    color:#B45309;
+}
+
+.alto{
+    background:#FEE2E2;
+    color:#B91C1C;
+}
+
+/* CONTENEDOR */
+
+.container{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:60px 20px;
+}
+
+/* CARD */
+
+.card{
+    width:100%;
+    max-width:520px;
+    background:white;
+    border-radius:25px;
+    padding:40px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.card h1{
+    font-size:32px;
+    color:#2d1b4e;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#777;
+    margin-bottom:30px;
+    line-height:1.5;
+}
+
+/* FORMULARIO */
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:20px;
+}
+
+label{
+    margin-bottom:8px;
+    font-weight:500;
+    color:#333;
+}
+
+input,
+select{
+    width:100%;
+    padding:14px 20px;
+    padding-right:50px;
+    border:none;
+    border-radius:14px;
+    background:#f0f0f0;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+}
+
+input:focus,
+select:focus{
+    background:#ebe4fa;
+}
+
+/* BOTÓN FORM */
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#F4A623;
+    color:white;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+    margin-top:10px;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    opacity:0.9;
+}
+
+.hidden{
+    display:none;
+}
+
+/* BOTON REGRESAR */
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    color:#6E6783;
+    font-size:.95rem;
+    font-weight:600;
+    margin-bottom:25px;
+    transition:.3s ease;
+}
+
+.back-btn span{
+    font-size:1rem;
+}
+
+.back-btn:hover{
+    color:#7C3AED;
+    transform:translateX(-3px);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    nav{
+        padding:0 24px;
+    }
+
+    .container{
+        padding:45px 20px;
+    }
+
+    .card{
+        max-width:480px;
+        padding:34px 28px;
+    }
+
+    .logo{
+        width:85px;
+    }
+
+    .profile-btn{
+        width:58px;
+        height:58px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    nav{
+        height:70px;
+        padding:0 16px;
+        position:relative;
+    }
+
+    .logo{
+        width:72px;
+    }
+
+    #menuBtn{
+        display:block;
+        background:none;
+        border:none;
+        font-size:26px;
+        color:#4B3B75;
+        cursor:pointer;
+        width:auto;
+        padding:0;
+        margin:0;
+        box-shadow:none;
+    }
+
+    #mobileNav{
+        position:absolute;
+        top:70px;
+        left:0;
+        width:100%;
+        background:white;
+        padding:24px;
+        display:none;
+        flex-direction:column;
+        align-items:center;
+        gap:18px;
+        box-shadow:0 10px 30px rgba(0,0,0,.08);
+        z-index:1000;
+    }
+
+    #mobileNav.active{
+        display:flex;
+    }
+
+    .nav-links a{
+        font-size:.85rem;
+    }
+
+    .profile-btn{
+        width:48px;
+        height:48px;
+        padding:0;
+        background:transparent;
+        margin-top:0;
+        box-shadow:none;
+    }
+
+    .profile-icon{
+        width:48px;
+        height:48px;
+        transform:none;
+        object-fit:contain;
+    }
+
+    .container{
+        padding:32px 14px;
+    }
+
+    .card{
+        width:100%;
+        max-width:360px;
+        padding:24px 18px;
+        border-radius:22px;
+    }
+
+    .back-btn{
+        font-size:.78rem;
+        margin-bottom:18px;
+    }
+
+    .card h1{
+        font-size:1.45rem;
+        line-height:1.2;
+    }
+
+    .card p{
+        font-size:.82rem;
+        line-height:1.5;
+        margin-bottom:22px;
+    }
+
+    .form-group{
+        margin-bottom:15px;
+    }
+
+    label{
+        font-size:.82rem;
+    }
+
+    input,
+    select{
+        font-size:.78rem;
+        padding:12px 14px;
+        padding-right:38px;
+        border-radius:12px;
+    }
+
+    button[type="submit"]{
+        font-size:.84rem;
+        padding:13px;
+        border-radius:12px;
+    }
+
+}
+/* PERFIL NAVBAR */
+
+.profile-btn{
+
+width:52px !important;
+height:52px !important;
+
+padding:0 !important;
+margin:0 !important;
+
+background:transparent !important;
+
+border:none !important;
+
+display:flex !important;
+
+justify-content:center;
+align-items:center;
+
+flex-shrink:0;
+
+}
+
+.profile-icon{
+
+width:52px !important;
+height:52px !important;
+
+object-fit:cover;
+
+border-radius:50%;
+
+transform:none !important;
+
+display:block;
+
+}
+
+/* CELULAR */
+
+@media(max-width:600px){
+
+.profile-btn{
+
+width:44px !important;
+height:44px !important;
+
+}
+
+.profile-icon{
+
+width:44px !important;
+height:44px !important;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+
+<a href="/" class="nav-logo">
+
+<img src="img/Logo2.png" class="logo">
+
+</a>
+
+<button id="menuBtn" type="button">
+
+<i class="fa-solid fa-bars"></i>
+
+</button>
+
+<div class="nav-links" id="mobileNav">
+
+<a href="/">Inicio</a>
+
+<a href="#" id="abrirModalResultados">Resultados</a>
+
+<button class="profile-btn" id="profileBtn" type="button">
+
+<img src="img/Icono-perfil2.png" class="profile-icon" alt="Perfil">
+
+</button>
+
+</div>
+
+</nav>
+
+<!-- CONTENIDO -->
+
+<div class="container">
+
+<div class="card">
+
+<a href="/" class="back-btn">
+<span>←</span> Regresar
+</a>
+
+<h1>Datos personales</h1>
+
+<p>
+Completa la siguiente información para comenzar la evaluación.
+</p>
+
+<form>
+
+<div class="form-group">
+
+<label>Edad</label>
+
+<input type="number" placeholder="Ingresa tu edad">
+
+</div>
+
+<div class="form-group">
+
+<label>Nivel educativo</label>
+
+<select id="nivelEducativo">
+
+<option value="">Selecciona una opción</option>
+<option value="primaria">Primaria</option>
+<option value="secundaria">Secundaria</option>
+<option value="preparatoria">Preparatoria</option>
+<option value="universidad">Universidad</option>
+<option value="otro">Otro</option>
+
+</select>
+
+</div>
+
+<div class="form-group hidden" id="gradoContainer">
+
+<label id="gradoLabel">Grado</label>
+
+<select id="gradoSelect">
+
+<option>Selecciona una opción</option>
+
+</select>
+
+</div>
+
+<div class="form-group hidden" id="carreraContainer">
+
+<label>Carrera</label>
+
+<select id="carreraSelect">
+
+<option value="">Selecciona una carrera</option>
+
+<option>Ingeniería en Tecnologías de la Información y Comunicación</option>
+<option>Ingeniería en Innovación Agrícola Sustentable</option>
+<option>Ingeniería en Gestión Empresarial</option>
+<option>Ingeniería Industrial</option>
+<option>Ingeniería Mecatrónica</option>
+<option>Ingeniería en Sistemas Automotrices</option>
+<option value="otro">Otra</option>
+
+</select>
+
+</div>
+<div class="form-group hidden" id="otraCarreraContainer">
+
+<label id="otraLabel">Escribe tu respuesta</label>
+
+<input type="text" id="inputOtro" placeholder="Ingresa tu respuesta">
+
+</div>
+
+<button type="submit">
+
+Continuar →
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- MODAL RESULTADOS -->
+
+<div id="modalResultados" class="modal-evaluacion">
+
+<div class="modal-card">
+
+<button type="button" id="cerrarModalResultados" class="modal-close">
+<i class="fa-solid fa-xmark"></i>
+</button>
+
+<div class="modal-icon">
+<i class="fa-solid fa-clipboard-list"></i>
+</div>
+
+<h2>Evaluación EPA</h2>
+
+<p>
+Consulta tu historial de resultados o inicia una nueva evaluación cuando lo desees.
+</p>
+
+<div class="historial-modal" id="historialModal">
+<p>Cargando historial...</p>
+</div>
+
+<div class="modal-botones">
+
+<a href="datos_personales.html" class="btn-modal principal">
+Nueva evaluación
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<%- include('partials/modalPerfil') %>
+
+<!-- MENU -->
+
+<script>
+
+const menuBtn =
+document.getElementById('menuBtn');
+
+const mobileNav =
+document.getElementById('mobileNav');
+
+menuBtn.addEventListener('click',()=>{
+
+mobileNav.classList.toggle('active');
+
+});
+
+</script>
+
+<!-- RESULTADOS -->
+
+<script>
+
+const abrirModalResultados =
+document.getElementById('abrirModalResultados');
+
+const cerrarModalResultados =
+document.getElementById('cerrarModalResultados');
+
+const modalResultados =
+document.getElementById('modalResultados');
+
+abrirModalResultados.addEventListener('click', (e) => {
+
+e.preventDefault();
+
+modalResultados.classList.add('active');
+
+cargarHistorialModal();
+
+});
+
+cerrarModalResultados.addEventListener('click', () => {
+
+modalResultados.classList.remove('active');
+
+});
+
+modalResultados.addEventListener('click', (e) => {
+
+if(e.target === modalResultados){
+
+modalResultados.classList.remove('active');
+
+}
+
+});
+
+</script>
+
+<script>
+
+async function cargarHistorialModal(){
+
+const contenedor =
+document.getElementById('historialModal');
+
+try{
+
+const res =
+await fetch('/historial-evaluaciones');
+
+if(!res.ok){
+
+contenedor.innerHTML =
+`
+<p>
+Debes iniciar sesión para ver tu historial.
+</p>
+`;
+
+return;
+
+}
+
+const datos =
+await res.json();
+
+contenedor.innerHTML='';
+
+if(!datos.length){
+
+contenedor.innerHTML =
+`
+<p>
+Aún no tienes evaluaciones.
+</p>
+`;
+
+return;
+
+}
+
+datos.forEach(r=>{
+
+const fecha =
+new Date(r.fecha).toLocaleDateString('es-MX');
+
+const nivel =
+r.nivel_procrastinacion.toLowerCase();
+
+contenedor.innerHTML +=
+`
+<div class="historial-item">
+
+<span>${fecha}</span>
+
+<strong class="${nivel}">
+${r.nivel_procrastinacion}
+</strong>
+
+</div>
+`;
+
+});
+
+}catch(error){
+
+console.log(error);
+
+contenedor.innerHTML =
+`
+<p>
+No se pudo cargar historial.
+</p>
+`;
+
+}
+
+}
+
+</script>
+
+<!-- PERFIL -->
+
+<script>
+
+const profileBtn =
+document.getElementById('profileBtn');
+
+const modalPerfil =
+document.getElementById('modalPerfil');
+
+const cerrarPerfil =
+document.getElementById('cerrarPerfil');
+
+const logoutBtn =
+document.getElementById('logoutBtn');
+
+profileBtn.addEventListener('click', async()=>{
+
+modalPerfil.classList.add('active');
+
+try{
+
+const res =
+await fetch('/perfil');
+
+if(!res.ok){
+
+document.getElementById('nombrePerfil').innerText =
+'Sin sesión';
+
+document.getElementById('correoPerfil').innerText =
+'No se pudo cargar el perfil';
+
+document.getElementById('rolPerfil').innerText =
+'usuario';
+
+return;
+
+}
+
+const usuario =
+await res.json();
+
+document.getElementById('nombrePerfil').innerText =
+`${usuario.nombre} ${usuario.apellidos || ''}`;
+
+document.getElementById('correoPerfil').innerText =
+usuario.correo;
+
+document.getElementById('rolPerfil').innerText =
+usuario.rol;
+
+}catch(error){
+
+console.log(error);
+
+document.getElementById('nombrePerfil').innerText =
+'Usuario';
+
+document.getElementById('correoPerfil').innerText =
+'Error al cargar correo';
+
+document.getElementById('rolPerfil').innerText =
+'usuario';
+
+}
+
+});
+
+cerrarPerfil.addEventListener('click',()=>{
+
+modalPerfil.classList.remove('active');
+
+});
+
+modalPerfil.addEventListener('click',(e)=>{
+
+if(e.target === modalPerfil){
+
+modalPerfil.classList.remove('active');
+
+}
+
+});
+
+logoutBtn.addEventListener('click', async(e)=>{
+
+e.preventDefault();
+
+try{
+
+await fetch('/logout');
+
+window.location.href = '/';
+
+}catch(error){
+
+console.log(error);
+
+alert('No se pudo cerrar sesión');
+
+}
+
+});
+
+</script>
+
+<script src="js/datos.js"></script>
+
+</body>
+</html>

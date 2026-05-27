@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Registro - Flojerómetro EPA</title>
+
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <!-- INTER -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Inter', sans-serif;
+    }
+
+    body{
+
+      min-height:100vh;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      background-image:url("img/Fondo-3.png");
+      background-size:cover;
+      
+      background-position:center -150px;
+      background-repeat:no-repeat;
+
+      overflow-x:hidden;
+
+      padding:20px;
+
+    }
+
+    .overlay{
+
+      width:100%;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+    }
+
+    /* CARD */
+
+    .card{
+
+      width:100%;
+      max-width:430px;
+      background:white;
+      border-radius:34px;
+      padding:26px;
+
+      position:relative;
+
+      box-shadow:
+      0 20px 50px rgba(0,0,0,.08);
+
+    }
+
+    /* LOGO */
+
+    .logo{
+
+      width:190px;
+      display:block;
+      margin:auto;
+      margin-bottom:18px;
+    }
+
+    /* TITULOS */
+
+    h1{
+
+      font-size:2.2rem;
+      font-weight:800;
+
+      color:#241442;
+
+      margin-bottom:10px;
+
+    }
+
+    .subtitle{
+
+      color:#6E6783;
+
+      font-size:1rem;
+
+      line-height:1.7;
+
+      margin-bottom:28px;
+
+    }
+
+    /* CERRAR */
+
+    .close{
+
+      position:absolute;
+
+      top:20px;
+      right:25px;
+
+      font-size:1.5rem;
+
+      color:#9A91B5;
+
+      cursor:pointer;
+
+      transition:.3s;
+
+      text-decoration:none;
+
+    }
+
+    .close:hover{
+
+      color:#7C3AED;
+
+      transform:rotate(90deg);
+
+    }
+
+    /* INPUTS */
+
+    .input-box{
+
+      width:100%;
+      height:56px;
+
+      border:1px solid #E4DDF5;
+
+      border-radius:18px;
+
+      margin-bottom:18px;
+
+      display:flex;
+      align-items:center;
+
+      padding:0 16px;
+
+      background:white;
+
+      transition:.3s ease;
+
+    }
+
+    .input-box:focus-within{
+      border-color:#7C3AED;
+    }
+
+    .input-box i{
+
+      color:#7C3AED;
+
+      font-size:17px;
+
+    }
+
+    .input-box input{
+
+      width:100%;
+
+      border:none;
+      outline:none;
+
+      background:transparent;
+
+      font-size:.97rem;
+
+      margin-left:12px;
+
+      color:#2D2347;
+
+    }
+
+    .input-box input::placeholder{
+      color:#9B94B1;
+    }
+
+    /* PASSWORD */
+
+    .toggle-password{
+
+      cursor:pointer;
+
+      transition:.3s;
+
+    }
+
+    .toggle-password:hover{
+      color:#5B21B6;
+    }
+
+    /* PASSWORD RULES */
+
+    .password-rules{
+
+      display:none;
+
+      background:#FAF8FF;
+
+      border:1px solid #E9E2FF;
+
+      border-radius:18px;
+
+      padding:16px;
+
+      margin-top:-4px;
+      margin-bottom:18px;
+
+    }
+
+    .password-rules p{
+
+      font-size:14px;
+
+      display:flex;
+      align-items:center;
+      gap:8px;
+
+      margin-bottom:10px;
+
+      transition:.3s;
+
+    }
+
+    .password-rules p:last-child{
+      margin-bottom:0;
+    }
+
+    .password-rules i{
+      font-size:14px;
+    }
+
+    .valid{
+      color:#188038 !important;
+    }
+
+    .valid i{
+      color:#188038;
+    }
+
+    .invalid{
+      color:#d93025 !important;
+    }
+
+    .invalid i{
+      color:#d93025;
+    }
+
+    /* BOTON */
+
+    .btn{
+
+      width:100%;
+      height:56px;
+
+      border:none;
+
+      border-radius:18px;
+
+      background:
+      linear-gradient(135deg,#8B5CF6,#7C3AED);
+
+      color:white;
+
+      font-size:1rem;
+      font-weight:700;
+
+      cursor:pointer;
+
+      margin-top:10px;
+
+      transition:.3s ease;
+
+      box-shadow:
+      0 12px 24px rgba(124,58,237,.25);
+
+    }
+
+    .btn:hover{
+
+      transform:translateY(-3px);
+
+      background:
+      linear-gradient(135deg,#7C3AED,#6D28D9);
+
+    }
+
+    /* MENSAJE */
+
+    .message{
+
+      margin-top:15px;
+
+      text-align:center;
+
+      font-size:14px;
+      font-weight:600;
+
+    }
+
+    .success{
+      color:#188038;
+    }
+
+    .error{
+      color:#d93025;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:768px){
+
+      .card{
+
+        padding:30px 22px;
+
+        border-radius:28px;
+
+      }
+
+      h1{
+        font-size:1.8rem;
+      }
+
+      .subtitle{
+        font-size:.95rem;
+      }
+
+    }
+
+    @media(max-width:900px){
+
+  body{
+    background-position:center;
+    padding:24px;
+  }
+
+  .card{
+    max-width:410px;
+    padding:32px 26px;
+    border-radius:30px;
+  }
+
+  .logo{
+    width:160px;
+  }
+
+  h1{
+    font-size:1.8rem;
+  }
+
+  .subtitle{
+    font-size:.92rem;
+    line-height:1.6;
+  }
+
+}
+
+@media(max-width:480px){
+
+  html,
+  body{
+    min-width:320px;
+  }
+
+  body{
+    background:#B78CFF; /* aquí cambias el color */
+    padding:16px;
+    min-height:100vh;
+    min-height:100dvh;
+  }
+
+  .overlay{
+    min-height:100dvh;
+  }
+
+  .card{
+    width:100%;
+    max-width:340px;
+    padding:24px 18px;
+    border-radius:24px;
+  }
+
+  .logo{
+    width:120px;
+    margin-bottom:10px;
+  }
+
+  h1{
+    font-size:1.3rem;
+    line-height:1.2;
+  }
+
+  .subtitle{
+    font-size:.76rem;
+    line-height:1.5;
+    margin-bottom:18px;
+  }
+
+  .input-box{
+    height:48px;
+    padding:0 12px;
+    border-radius:14px;
+    margin-bottom:13px;
+  }
+
+  .input-box i{
+    font-size:14px;
+  }
+
+  .input-box input{
+    font-size:.76rem;
+    margin-left:10px;
+  }
+
+  .password-rules{
+    padding:12px;
+    border-radius:14px;
+    margin-bottom:14px;
+  }
+
+  .password-rules p{
+    font-size:.72rem;
+    gap:6px;
+    margin-bottom:8px;
+  }
+
+  .btn{
+    height:48px;
+    font-size:.8rem;
+    border-radius:14px;
+  }
+
+  .message{
+    font-size:.76rem;
+  }
+
+  .close{
+    top:13px;
+    right:17px;
+    font-size:1.1rem;
+  }
+
+}
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="overlay">
+
+    <div class="card">
+
+      <!-- CERRAR -->
+
+      <a href="#" class="close" onclick="window.history.back(); return false;">
+      <i class="fa-solid fa-xmark"></i>
+      </a>
+
+      <!-- LOGO -->
+
+      <img src="img/Logo2.png" class="logo">
+
+      <!-- TITULO -->
+
+      <h1 style="text-align: center;">Crear cuenta</h1>
+
+      <p class="subtitle" style="text-align: center;">
+        Crea tu cuenta para comenzar tu evaluación y guardar tus resultados.
+      </p>
+
+      <!-- FORM -->
+
+      <form id="registroForm">
+
+        <!-- NOMBRE -->
+
+        <div class="input-box">
+
+          <i class="fa-solid fa-user"></i>
+
+          <input
+          type="text"
+          placeholder="Nombre"
+          id="nombre"
+          required>
+
+        </div>
+
+        <!-- APELLIDOS -->
+
+        <div class="input-box">
+
+          <i class="fa-solid fa-users"></i>
+
+          <input
+          type="text"
+          placeholder="Apellidos"
+          id="apellidos"
+          required>
+
+        </div>
+
+        <!-- CORREO -->
+
+        <div class="input-box">
+
+          <i class="fa-solid fa-envelope"></i>
+
+          <input
+          type="email"
+          placeholder="Correo electrónico"
+          id="correo"
+          required>
+
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div class="input-box">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <input
+          type="password"
+          placeholder="Contraseña"
+          id="password"
+          required>
+
+          <i class="fa-solid fa-eye-slash toggle-password" id="togglePassword"></i>
+
+        </div>
+
+        <!-- REGLAS PASSWORD -->
+
+        <div class="password-rules">
+
+          <p id="rule-length" class="invalid">
+            <i class="fa-solid fa-circle-xmark"></i>
+            Mínimo 8 caracteres
+          </p>
+
+          <p id="rule-letter" class="invalid">
+            <i class="fa-solid fa-circle-xmark"></i>
+            Letras
+          </p>
+
+          <p id="rule-number" class="invalid">
+            <i class="fa-solid fa-circle-xmark"></i>
+            Números
+          </p>
+
+          <p id="rule-special" class="invalid">
+            <i class="fa-solid fa-circle-xmark"></i>
+            Símbolos especiales
+          </p>
+
+        </div>
+
+        <!-- BOTON -->
+
+        <button type="submit" class="btn">
+          Registrarme
+        </button>
+
+        <!-- MENSAJE -->
+
+        <p id="mensaje" class="message"></p>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+
+  <script>
+
+    // VER / OCULTAR PASSWORD
+
+const password =
+document.getElementById("password");
+
+const toggle =
+document.getElementById("togglePassword");
+
+toggle.addEventListener("click", ()=>{
+
+  if(password.type === "password"){
+
+    password.type = "text";
+
+    toggle.className =
+    "fa-solid fa-eye toggle-password";
+
+  }else{
+
+    password.type = "password";
+
+    toggle.className =
+    "fa-solid fa-eye-slash toggle-password";
+
+  }
+
+});
+
+    // REGLAS
+
+    const ruleLength =
+    document.getElementById("rule-length");
+
+    const ruleLetter =
+    document.getElementById("rule-letter");
+
+    const ruleNumber =
+    document.getElementById("rule-number");
+
+    const ruleSpecial =
+    document.getElementById("rule-special");
+
+    const passwordRules =
+    document.querySelector(".password-rules");
+
+    password.addEventListener("input", ()=>{
+
+      if(password.value.length > 0){
+
+        passwordRules.style.display = "block";
+
+      }else{
+
+        passwordRules.style.display = "none";
+
+      }
+
+      const value = password.value;
+
+      // 8 caracteres
+
+      if(value.length >= 8){
+
+        ruleLength.classList.add("valid");
+        ruleLength.classList.remove("invalid");
+
+        ruleLength.innerHTML =
+        '<i class="fa-solid fa-circle-check"></i> Mínimo 8 caracteres';
+
+      }else{
+
+        ruleLength.classList.add("invalid");
+        ruleLength.classList.remove("valid");
+
+        ruleLength.innerHTML =
+        '<i class="fa-solid fa-circle-xmark"></i> Mínimo 8 caracteres';
+
+      }
+
+      // letras
+
+      if(/[A-Za-z]/.test(value)){
+
+        ruleLetter.classList.add("valid");
+        ruleLetter.classList.remove("invalid");
+
+        ruleLetter.innerHTML =
+        '<i class="fa-solid fa-circle-check"></i> Letras';
+
+      }else{
+
+        ruleLetter.classList.add("invalid");
+        ruleLetter.classList.remove("valid");
+
+        ruleLetter.innerHTML =
+        '<i class="fa-solid fa-circle-xmark"></i> Letras';
+
+      }
+
+      // numeros
+
+      if(/\d/.test(value)){
+
+        ruleNumber.classList.add("valid");
+        ruleNumber.classList.remove("invalid");
+
+        ruleNumber.innerHTML =
+        '<i class="fa-solid fa-circle-check"></i> Números';
+
+      }else{
+
+        ruleNumber.classList.add("invalid");
+        ruleNumber.classList.remove("valid");
+
+        ruleNumber.innerHTML =
+        '<i class="fa-solid fa-circle-xmark"></i> Números';
+
+      }
+
+      // simbolos
+
+      if(/[@$!%*#?&._-]/.test(value)){
+
+        ruleSpecial.classList.add("valid");
+        ruleSpecial.classList.remove("invalid");
+
+        ruleSpecial.innerHTML =
+        '<i class="fa-solid fa-circle-check"></i> Símbolos especiales';
+
+      }else{
+
+        ruleSpecial.classList.add("invalid");
+        ruleSpecial.classList.remove("valid");
+
+        ruleSpecial.innerHTML =
+        '<i class="fa-solid fa-circle-xmark"></i> Símbolos especiales';
+
+      }
+
+    });
+
+    // VALIDAR FORMULARIO
+
+    const form =
+    document.getElementById("registroForm");
+
+    const mensaje =
+    document.getElementById("mensaje");
+
+    form.addEventListener("submit", async (e)=>{
+
+      e.preventDefault();
+
+      const value = password.value;
+
+      const regex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&._-])[A-Za-z\d@$!%*#?&._-]{8,}$/;
+
+      if(!regex.test(value)){
+
+        mensaje.textContent =
+        "La contraseña no cumple los requisitos.";
+
+        mensaje.classList.add("error");
+        mensaje.classList.remove("success");
+
+        return;
+
+      }
+
+      // DATOS
+
+      const nombre =
+      document.getElementById("nombre").value;
+
+      const apellidos =
+      document.getElementById("apellidos").value;
+
+      const correo =
+      document.getElementById("correo").value;
+
+      const contraseña =
+      password.value;
+
+      try{
+
+        const respuesta =
+        await fetch('/registro', {
+
+          method:'POST',
+
+          headers:{
+            'Content-Type':'application/json'
+          },
+
+          body:JSON.stringify({
+
+            nombre,
+            apellidos,
+            correo,
+            contraseña
+
+          })
+
+        });
+
+        const data =
+        await respuesta.json();
+
+        mensaje.textContent =
+        data.mensaje;
+
+        if(respuesta.ok){
+
+          mensaje.classList.add("success");
+          mensaje.classList.remove("error");
+
+          localStorage.setItem(
+            "nombreUsuario",
+            nombre + " " + apellidos
+          );
+
+          setTimeout(()=>{
+
+            window.location.href =
+            "/bienvenida.html";
+
+          },1500);
+
+        }else{
+
+          mensaje.classList.add("error");
+          mensaje.classList.remove("success");
+
+        }
+
+      }catch(error){
+
+        console.log(error);
+
+        mensaje.textContent =
+        "Error al conectar con el servidor";
+
+        mensaje.classList.add("error");
+        mensaje.classList.remove("success");
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
